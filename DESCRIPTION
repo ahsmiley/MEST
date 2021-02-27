@@ -1,0 +1,11 @@
+Package: MEST
+Type: Package
+Title: Power Analysis for MEST and EqT
+Version: 0.1.0
+Author: Adam H. Smiley
+Maintainer: Adam H. Smiley <ahsmiley@uw.edu>
+Description: Provides functions to compute power analyses for Minimum-Effect Significance Testing and Equivalence Testing. See Smiley, Glazier, and Shoda's article (https://psyarxiv.com/465ha/) for information on how to conduct MEST. 
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
