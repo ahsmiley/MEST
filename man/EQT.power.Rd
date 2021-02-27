@@ -33,6 +33,6 @@ EQT.power(
 This function helps to determine the sample size needed for equivalence testing.
 }
 \examples{
-EQT.power(r = 0, low.sesoi = -.3, up.sesoi = .3, n = NULL, power = NULL, int.size = .95)
+EQT.power(r = 0, low.sesoi = -.2, up.sesoi = .2, n = NULL, power = NULL, int.size = .95)
 }
 \keyword{Equivalence}

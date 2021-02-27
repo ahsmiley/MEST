@@ -25,9 +25,9 @@ See the article by Smiley, Glazier, and Shoda for details on how to conduct MEST
 }
 \examples{
 ## Calculate necessary sample size:
-MEST.power(r = .5, geni = .3, n = NULL, power = .85, int.size = .95)
+MEST.power(r = .4, geni = .2, n = NULL, power = .85, int.size = .95)
 
 ## Calculate statistical power:
-MEST.power(r = .5, geni = .3, n = 100, power = NULL, int.size = .95, n.sims = 10000)
+MEST.power(r = .4, geni = .2, n = 100, power = NULL, int.size = .95, n.sims = 10000)
 }
 \keyword{MEST}
