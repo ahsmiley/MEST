@@ -30,7 +30,7 @@ EQT.power(
 \item{n.sims}{is the number of simulations used if calculating power from a given n. Defaults to 1000. n.sims is not relevant in calculating necessary sample size. Increase n.sims for greater accuracy.}
 }
 \description{
-This function helps to determine the sample size needed for equivalence testing.
+This function helps to conduct power analysis for Equivalence Testing with correlational data. To determine the necessary sample size, leave n=NULL and designate the desired power (i.e. power = .8). To calculate the power with a given sample size, leave power=NULL and specify a sample size (i.e. n = 150).
 }
 \examples{
 EQT.power(r = 0, low.sesoi = -.2, up.sesoi = .2, n = NULL, power = NULL, int.size = .95)

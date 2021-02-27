@@ -1,6 +1,6 @@
 #' EqT Power Calculator
 #'
-#' This function helps to determine the sample size needed for equivalence testing.
+#' This function helps to conduct power analysis for Equivalence Testing with correlational data. To determine the necessary sample size, leave n=NULL and designate the desired power (i.e. power = .8). To calculate the power with a given sample size, leave power=NULL and specify a sample size (i.e. n = 150).
 #' @param r is the predicted Pearson's r correlation (must be between -1 and 1).
 #' @param low.sesoi is the lower smallest effect in Pearson's r correlation (must be between -1 and 1 and must be less than r).
 #' @param up.sesoi is the upper smallest effect in Pearson's r correlation (must be between -1 and 1 and must be greater than r).

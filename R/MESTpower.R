@@ -1,6 +1,6 @@
 #' MEST Power Calculator
 #'
-#' This function helps to determine the sample size needed for MEST. \cr\cr
+#' This function helps to conduct power analysis for MEST with correlational data. To determine the necessary sample size, leave n=NULL and designate a designated power. To calculate the power with a given sample size, leave power=NULL and specify a sample size (n). \cr\cr
 #' See the article by Smiley, Glazier, and Shoda for details on how to conduct MEST: https://psyarxiv.com/465ha/
 #' @param r is the predicted Pearson's r correlation (must be between -1 and 1).
 #' @param H0 is the null hypothesis (H0'), which corresponds to the Greatest Effect of No Interest (GENI) in Pearson's r correlation (must be between -1 and 1).

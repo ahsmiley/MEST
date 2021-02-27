@@ -20,7 +20,7 @@ MEST.power(r, H0, n = NULL, power = NULL, int.size = 0.9, n.sims = NULL)
 \item{n.sims}{is the number of simulations used if calculating power from a given n. Defaults to 1000. n.sims is not relevant in calculating necessary sample size. Increase n.sims for greater accuracy.}
 }
 \description{
-This function helps to determine the sample size needed for MEST. \cr\cr
+This function helps to conduct power analysis for MEST with correlational data. To determine the necessary sample size, leave n=NULL and designate a designated power. To calculate the power with a given sample size, leave power=NULL and specify a sample size (n). \cr\cr
 See the article by Smiley, Glazier, and Shoda for details on how to conduct MEST: https://psyarxiv.com/465ha/
 }
 \examples{
