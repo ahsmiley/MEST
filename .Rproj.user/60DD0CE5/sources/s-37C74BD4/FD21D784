@@ -3,7 +3,7 @@
     "path": "C:/Users/adamh/Dropbox/My PC (AdamsPC)/Desktop/MESTr/R/MESTpower.R",
     "project_path": "R/MESTpower.R",
     "type": "r_source",
-    "hash": "2141604896",
+    "hash": "0",
     "contents": "",
     "dirty": false,
     "created": 1614388798728.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "17,31",
-        "scrollLine": "4"
+        "cursorPosition": "124,0",
+        "scrollLine": "110"
     },
     "folds": "",
-    "lastKnownWriteTime": 1614388903,
+    "lastKnownWriteTime": 1614389226,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1614388903935,
+    "last_content_update": 1614389226183,
     "read_only": false,
     "read_only_alternatives": []
 }

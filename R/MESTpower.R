@@ -3,7 +3,7 @@
 #' This function helps to determine the sample size needed for MEST. \cr\cr
 #' See the article by Smiley, Glazier, and Shoda for details on how to conduct MEST: https://psyarxiv.com/465ha/
 #' @param r is the predicted Pearson's r correlation (must be between -1 and 1).
-#' @param geni is the Greatest Effect of No Interest in Pearson's r correlation (must be between -1 and 1).
+#' @param H0 is the null hypothesis (H0'), which corresponds to the Greatest Effect of No Interest (GENI) in Pearson's r correlation (must be between -1 and 1).
 #' @param n is the sample size (# of pairs). Leave as NULL to calculate the necessary sample size with a given power.
 #' @param power is the statistical power (must be between 0 and 1). Leave as NULL to calculate the simulated power with a given sample size.
 #' @param int.size is the size of the two-tailed confidence interval for MEST (must be between 0 and 1). Default is .9.
@@ -12,12 +12,12 @@
 #' @export
 #' @examples
 #' ## Calculate necessary sample size:
-#' MEST.power(r = .4, geni = .2, n = NULL, power = .85, int.size = .95)
+#' MEST.power(r = .4, H0 = .2, n = NULL, power = .85, int.size = .95)
 #'
 #' ## Calculate statistical power:
-#' MEST.power(r = .4, geni = .2, n = 100, power = NULL, int.size = .95, n.sims = 10000)
+#' MEST.power(r = .4, H0 = .2, n = 100, power = NULL, int.size = .95, n.sims = 10000)
 
-MEST.power <- function(r, geni, n = NULL, power = NULL, int.size = .9, n.sims = NULL){
+MEST.power <- function(r, H0, n = NULL, power = NULL, int.size = .9, n.sims = NULL){
   ## Install and require DescTools package (contains CorCI function)
   if (!require('DescTools')) install.packages('DescTools'); library('DescTools')
   ## Incorrect input
@@ -25,22 +25,22 @@ MEST.power <- function(r, geni, n = NULL, power = NULL, int.size = .9, n.sims = 
     stop("n and power cannot both be set to NULL")
   } else if(!is.null(n) & !is.null(power)){
     stop("either n or power must be set to NULL")
-  } else if(r >= 1 | r <= -1 | geni >= 1 | geni <= -1){
-    stop("r and geni must both be between -1 and 1")
+  } else if(r >= 1 | r <= -1 | H0 >= 1 | H0 <= -1){
+    stop("r and H0 must both be between -1 and 1")
   } else if(int.size <= 0 | int.size >= 1){
     stop("int.size must be between 0 and 1")
-  } else if(geni == r){
-    stop("GENI and r must be different values")
+  } else if(H0 == r){
+    stop("H0 and r must be different values")
   ## NO n specified - calculate necessary n
   } else if(is.null(n)){
       n <- 5
       if(power <= 0 | power >= 1){
       stop("power must be NULL or between 0 and 1")
       }
-      ## Calculate n when predicted correlation is greater than GENI
-      if(r > geni){
+      ## Calculate n when predicted correlation is greater than H0
+      if(r > H0){
         lower <- -1
-        while (geni > lower) {
+        while (H0 > lower) {
           n <- n + 1
           cor.ci <- CorCI(rho = r, n = n, conf.level = int.size, alternative = "two.sided")
           cor.ci2 <- CorCI(rho = unname(cor.ci[2]), n = n, conf.level = power, alternative = "greater")
@@ -48,15 +48,15 @@ MEST.power <- function(r, geni, n = NULL, power = NULL, int.size = .9, n.sims = 
         }
         cat("One-tailed MEST", "\n",
             "Predicted correlation: ", r, "\n",
-            "GENI: ", geni, "\n",
+            "H0: ", H0, "\n",
             "Power: ", power*100, "%", "\n",
             "CI: ", int.size*100, "%", "\n\n",
             "***Sample size Needed: ", n, "***",
             sep = "")
-      ## Calculate n when predicted correlation is lower than GENI
-      } else if(geni > r){
+      ## Calculate n when predicted correlation is lower than H0
+      } else if(H0 > r){
         upper <- 1
-        while (geni < upper) {
+        while (H0 < upper) {
           n <- n + 1
           cor.ci <- CorCI(rho = r, n = n, conf.level = int.size, alternative = "two.sided")
           cor.ci2 <- CorCI(rho = unname(cor.ci[3]), n = n, conf.level = power, alternative = "less")
@@ -64,13 +64,13 @@ MEST.power <- function(r, geni, n = NULL, power = NULL, int.size = .9, n.sims = 
         }
         cat("One-tailed MEST", "\n",
             "Predicted correlation: ", r, "\n",
-            "GENI: ", geni, "\n",
+            "H0: ", H0, "\n",
             "Power: ", power*100, "%", "\n",
             "CI: ", int.size*100, "%", "\n\n",
             "***Sample size Needed: ", n, "***",
             sep = "")
       }
-      invisible(list(r = r, geni = geni, n = n, power = power, int.size = int.size))
+      invisible(list(r = r, H0 = H0, n = n, power = power, int.size = int.size))
   } else if(is.null(power)){
     if (!require('rockchalk')) install.packages('rockchalk'); library('rockchalk')
     if(is.null(n.sims)){
@@ -83,18 +83,18 @@ MEST.power <- function(r, geni, n = NULL, power = NULL, int.size = .9, n.sims = 
         warning("n.sims is less than 1000. Increase n.sims for greater accuracy.")
         }
         sig <- rep(NA, n.sims)
-        if(r > geni){
+        if(r > H0){
           for(i in 1:n.sims){
             dat <- mvrnorm(n = n, Sigma = lazyCor(X = r, d = 2), mu = c(0,0))
             ## Calculate correlation between the two variables
             correl <- cor.test(dat[,1], dat[,2], conf.level = int.size)
             ## Lower CI of correlation
-            sig[i] <- correl$conf.int[1] > geni
+            sig[i] <- correl$conf.int[1] > H0
           }
           power <- mean(sig)
           cat("One-tailed MEST", "\n",
               "Predicted correlation: ", r, "\n",
-              "GENI: ", geni, "\n",
+              "H0: ", H0, "\n",
               "Sample size (# of pairs): ", n, "\n",
               "CI: ", int.size*100, "%", "\n\n",
               "***Power: ", 100*mean(sig), "%***", "\n",
@@ -106,12 +106,12 @@ MEST.power <- function(r, geni, n = NULL, power = NULL, int.size = .9, n.sims = 
             ## Calculate correlation between the two variables
             correl <- cor.test(dat[,1], dat[,2], conf.level = int.size)
             ## Lower CI of correlation
-            sig[i] <- correl$conf.int[2] < geni
+            sig[i] <- correl$conf.int[2] < H0
           }
           power <- mean(sig)
           cat("One-tailed MEST", "\n",
               "Predicted correlation: ", r, "\n",
-              "GENI: ", geni, "\n",
+              "H0: ", H0, "\n",
               "Sample size (# of pairs): ", n, "\n",
               "CI: ", int.size*100, "%", "\n\n",
               "***Power: ", 100*mean(sig), "%***", "\n",
@@ -119,7 +119,7 @@ MEST.power <- function(r, geni, n = NULL, power = NULL, int.size = .9, n.sims = 
               sep = "")
           }
         }
-    invisible(list(r = r, geni = geni, n = n, power = power, int.size = int.size, n.sims = n.sims))
+    invisible(list(r = r, H0 = H0, n = n, power = power, int.size = int.size, n.sims = n.sims))
       }
 }
 
