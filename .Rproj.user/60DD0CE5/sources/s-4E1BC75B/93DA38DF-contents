@@ -123,4 +123,5 @@ MEST.power <- function(r, H0, n = NULL, power = NULL, int.size = .9, n.sims = NU
   }
 }
 
+qnorm(p = .1)
 
