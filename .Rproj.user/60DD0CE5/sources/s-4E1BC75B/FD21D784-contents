@@ -42,8 +42,8 @@ MEST.power <- function(r, H0, n = NULL, power = NULL, int.size = .9, n.sims = NU
         lower <- -1
         while (H0 > lower) {
           n <- n + 1
-          cor.ci <- CorCI(rho = r, n = n, conf.level = int.size, alternative = "two.sided")
-          cor.ci2 <- CorCI(rho = unname(cor.ci[2]), n = n, conf.level = power, alternative = "greater")
+          cor.ci <- CorCI(rho = r, n = n, conf.level = power, alternative = "greater")
+          cor.ci2 <- CorCI(rho = unname(cor.ci[2]), n = n, conf.level = int.size, alternative = "two.sided")
           lower <- unname(cor.ci2[2])
         }
         cat("One-tailed MEST", "\n",
@@ -58,8 +58,8 @@ MEST.power <- function(r, H0, n = NULL, power = NULL, int.size = .9, n.sims = NU
         upper <- 1
         while (H0 < upper) {
           n <- n + 1
-          cor.ci <- CorCI(rho = r, n = n, conf.level = int.size, alternative = "two.sided")
-          cor.ci2 <- CorCI(rho = unname(cor.ci[3]), n = n, conf.level = power, alternative = "less")
+          cor.ci <- CorCI(rho = r, n = n, conf.level = power, alternative = "less")
+          cor.ci2 <- CorCI(rho = unname(cor.ci[3]), n = n, conf.level = int.size, alternative = "two.sided")
           upper <- unname(cor.ci2[3])
         }
         cat("One-tailed MEST", "\n",

@@ -1,0 +1,77 @@
+---
+title: "Untitled"
+author: "Adam Smiley"
+date: "3/22/2021"
+output: html_document
+---
+
+```{r}
+ if (!require('rockchalk')) install.packages('rockchalk'); library('rockchalk')
+    if(is.null(n.sims)){
+      n.sims <- 1000
+    }
+    if(n.sims < 1){
+      stop("n.sims must be at least 1")
+    } else {
+        if(n.sims < 1000){
+        warning("n.sims is less than 1000. Increase n.sims for greater accuracy.")
+        }
+        sig <- rep(NA, n.sims)
+        if(r > H0){
+          for(i in 1:n.sims){
+            dat <- mvrnorm(n = n, Sigma = lazyCor(X = r, d = 2), mu = c(0,0))
+            ## Calculate correlation between the two variables
+            correl <- cor.test(dat[,1], dat[,2], conf.level = int.size)
+            ## Lower CI of correlation
+            sig[i] <- correl$conf.int[1] > H0
+```
+
+
+```{r}
+library(rockchalk)
+library(DescTools)
+```
+
+```{r}
+contains.r <- rep(NA, 10000)
+## true correlation
+r = .3
+for(i in 1:length(contains.r)){
+  dat <- mvrnorm(n = 100, Sigma = lazyCor(X = r, d = 2), mu = c(0,0))
+  correl <- cor.test(dat[,1], dat[,2])
+  if(correl$conf.int[1] < r & correl$conf.int[2] > r){
+  contains.r[i] <- 1
+  } else {
+    contains.r[i] <- 0
+  }
+}
+mean(contains.r)
+```
+
+```{r}
+contains.r <- rep(NA, 10000)
+## true correlation
+r = .6
+lower <- unname(CorCI(rho = r, n = 100)[2])
+for(i in 1:length(contains.r)){
+  dat <- mvrnorm(n = 100, Sigma = lazyCor(X = lower, d = 2), mu = c(0,0))
+  correl <- cor.test(dat[,1], dat[,2])
+  if(correl$conf.int[1] < r & correl$conf.int[2] > r){
+  contains.r[i] <- 1
+  } else {
+    contains.r[i] <- 0
+  }
+}
+mean(contains.r)
+```
+```{r}
+library(MEST)
+MEST.power(r = .1, H0 = 0, n = NULL, power = .8, int.size = .95)
+```
+
+
+```{r}
+library(pwr)
+pwr.r.test(n = NULL, r = .1, sig.level = .05, power = .8)
+```
+
