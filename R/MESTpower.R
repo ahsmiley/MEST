@@ -57,8 +57,8 @@ MEST.power <- function(r, H0, n = NULL, power = NULL, int.size = .9, n.sims = NU
         upper <- 1
         while (H0 < upper) {
           n <- n + 1
-          high.pe <- unname(CorCI(rho = r, n = n, conf.level = power, alternative = "less")[3])
-          upper <- unname(CorCI(rho = high.pe, n = n, conf.level = int.size, alternative = "two.sided")[3])
+          up.pe <- unname(CorCI(rho = r, n = n, conf.level = power, alternative = "less")[3])
+          upper <- unname(CorCI(rho = up.pe, n = n, conf.level = int.size, alternative = "two.sided")[3])
         }
         cat("One-tailed MEST", "\n",
             "Predicted correlation: ", r, "\n",
